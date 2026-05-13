@@ -26,6 +26,8 @@ export default function NewsDetail() {
 
   return (
     <main className="news-detail-page">
+      <title>{`${post.title} | Phúc Yên Edu`}</title>
+      <meta name="description" content={post.excerpt} />
       <Header />
       
       <div className="detail-container">
