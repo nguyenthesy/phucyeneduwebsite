@@ -37,7 +37,7 @@ export default function Hero() {
           
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
             Xóa tan nỗi lo mất gốc <br /> 
-            <span className="highlight text-blue-600">Làm chủ tiếng Anh tự nhiên</span>
+            <span className="highlight text-blue-600">Làm chủ tiếng Anh</span>
           </h1>
 
           <div className="description space-y-4 mb-8 text-gray-700 text-lg leading-relaxed">
