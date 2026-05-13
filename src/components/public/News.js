@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { subscribeToCollection } from "@/lib/firestore";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination } from "swiper/modules";
+import Link from "next/link";
 import "swiper/css";
 import "swiper/css/pagination";
 
@@ -56,7 +57,7 @@ export default function News() {
                   </span>
                   <h3>{item.title}</h3>
                   <p>{item.excerpt}</p>
-                  <button className="read-more">Xem chi tiết →</button>
+                  <Link href={`/news/${item.id}`} className="read-more">Xem chi tiết →</Link>
                 </div>
               </div>
             </SwiperSlide>

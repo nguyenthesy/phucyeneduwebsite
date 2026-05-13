@@ -8,6 +8,7 @@ import WhyChooseUs from "@/components/public/WhyChooseUs";
 import Testimonials from "@/components/public/Testimonials";
 import News from "@/components/public/News";
 import Gallery from "@/components/public/Gallery";
+import Footer from "@/components/public/Footer";
 import { HiPhone, HiMail, HiLocationMarker, HiCheckCircle } from "react-icons/hi";
 import { FaFacebook, FaYoutube } from "react-icons/fa";
 import { addDocument, getDocument, subscribeToCollection } from "@/lib/firestore";
@@ -186,40 +187,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ===== FOOTER ===== */}
-      <footer className="footer">
-        <div className="container">
-          <div className="footer-grid">
-            <div className="footer-col">
-              <div className="footer-logo">
-                <span className="bold">{settings?.centerName?.split(' ')[0] || "PHÚC YÊN"}</span> {settings?.centerName?.split(' ').slice(1).join(' ') || "EDU"}
-              </div>
-              <p>Hệ thống Anh ngữ hàng đầu tại Vĩnh Phúc, cam kết mang lại chất lượng giáo dục chuẩn quốc tế.</p>
-            </div>
-            <div className="footer-col">
-              <h4>Liên Kết</h4>
-              <ul>
-                <li><a href="#">Về chúng tôi</a></li>
-                <li><a href="#courses">Khóa học</a></li>
-                <li><a href="#news">Tin tức</a></li>
-                <li><a href="#contact">Liên hệ</a></li>
-              </ul>
-            </div>
-            <div className="footer-col">
-              <h4>Hỗ Trợ</h4>
-              <ul>
-                <li><a href="#">Chính sách bảo mật</a></li>
-                <li><a href="#">Điều khoản sử dụng</a></li>
-                <li><a href="#">Câu hỏi thường gặp</a></li>
-                <li><a href="/admin/login">Quản trị viên</a></li>
-              </ul>
-            </div>
-          </div>
-          <div className="footer-bottom">
-            <p>&copy; 2026 Anh Ngữ Phúc Yên Edu. All rights reserved.</p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
 
       <style jsx>{`
         /* ---- Contact Section ---- */
@@ -327,29 +295,6 @@ export default function Home() {
         .success-state h3 { font-size: 1.8rem; font-weight: 800; }
         .success-state p { color: #636e72; font-size: 1.05rem; }
 
-        /* ---- Footer ---- */
-        .footer { background: #0F0F1E; color: white; padding: 80px 0 30px; }
-        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 60px; }
-        .footer-logo { font-size: 1.8rem; font-weight: 400; margin-bottom: 20px; }
-        .footer-logo .bold { font-weight: 800; color: #FF4500; }
-        .footer-col > p { opacity: 0.6; line-height: 1.9; font-size: 0.95rem; }
-        .footer-col h4 {
-          font-size: 1.1rem; font-weight: 700;
-          margin-bottom: 28px; position: relative; padding-bottom: 12px;
-        }
-        .footer-col h4::after {
-          content: ''; position: absolute;
-          left: 0; bottom: 0; width: 36px; height: 3px;
-          background: #FF4500; border-radius: 2px;
-        }
-        .footer-col ul { display: flex; flex-direction: column; gap: 12px; }
-        .footer-col ul li a { opacity: 0.65; font-size: 0.95rem; transition: all 0.2s; }
-        .footer-col ul li a:hover { opacity: 1; color: #FF4500; padding-left: 6px; }
-        .footer-bottom {
-          border-top: 1px solid rgba(255,255,255,0.06);
-          padding-top: 28px; text-align: center;
-          opacity: 0.45; font-size: 0.88rem;
-        }
         @media (max-width: 992px) {
           .contact-card { grid-template-columns: 1fr; padding: 35px; gap: 40px; }
           .contact-info h2 { font-size: 2.2rem; }
