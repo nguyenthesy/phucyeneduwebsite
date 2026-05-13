@@ -7,6 +7,7 @@ import Courses from "@/components/public/Courses";
 import WhyChooseUs from "@/components/public/WhyChooseUs";
 import Testimonials from "@/components/public/Testimonials";
 import News from "@/components/public/News";
+import Gallery from "@/components/public/Gallery";
 import { HiPhone, HiMail, HiLocationMarker, HiCheckCircle } from "react-icons/hi";
 import { FaFacebook, FaYoutube } from "react-icons/fa";
 import { addDocument, getDocument, subscribeToCollection } from "@/lib/firestore";
@@ -77,6 +78,7 @@ export default function Home() {
       <WhyChooseUs />
       <Testimonials />
       <News />
+      <Gallery />
 
       {/* ===== CONTACT SECTION ===== */}
       <section id="contact" className="contact-section">

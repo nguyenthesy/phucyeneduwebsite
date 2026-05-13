@@ -1,34 +1,27 @@
 "use client";
+import { useState, useEffect } from "react";
+import { subscribeToCollection } from "@/lib/firestore";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay } from "swiper/modules";
+import { HiStar } from "react-icons/hi";
+import { FaQuoteRight } from "react-icons/fa";
+
+// Swiper styles
 import "swiper/css";
 import "swiper/css/pagination";
-import { HiStar } from "react-icons/hi";
 
 export default function Testimonials() {
-  const reviews = [
-    {
-      name: "Nguyễn Minh Anh",
-      role: "Phụ huynh bé Bi (5 tuổi)",
-      content: "Từ khi học tại Phúc Yên Edu, bé nhà mình tự tin hơn hẳn. Bé rất thích đi học vì các thầy cô giáo rất vui tính và bài học sinh động.",
-      image: "https://i.pravatar.cc/150?u=1",
-      rating: 5
-    },
-    {
-      name: "Trần Đức Nam",
-      role: "Học sinh lớp IELTS 7.5",
-      content: "Môi trường học tập chuyên nghiệp, lộ trình rõ ràng. Mình đã đạt mục tiêu 7.5 IELTS chỉ sau 6 tháng ôn luyện tại đây.",
-      image: "https://i.pravatar.cc/150?u=2",
-      rating: 5
-    },
-    {
-      name: "Lê Thu Trang",
-      role: "Phụ huynh bé Bông (8 tuổi)",
-      content: "Chương trình học chuẩn Cambridge giúp con nắm vững kiến thức nền tảng. Phụ huynh cũng dễ dàng theo dõi bài vở của con qua ứng dụng.",
-      image: "https://i.pravatar.cc/150?u=3",
-      rating: 5
-    }
-  ];
+  const [testimonials, setTestimonials] = useState([]);
+
+  useEffect(() => {
+    const unsub = subscribeToCollection("testimonials", (data) => {
+      // Chỉ lấy các đánh giá đang hoạt động (isActive = true)
+      setTestimonials(data.filter(t => t.isActive));
+    }, "order", "asc");
+    return unsub;
+  }, []);
+
+  if (testimonials.length === 0) return null;
 
   return (
     <section className="testimonials">
@@ -43,27 +36,32 @@ export default function Testimonials() {
           spaceBetween={30}
           slidesPerView={1}
           pagination={{ clickable: true }}
-          autoplay={{ delay: 5000 }}
+          autoplay={{ delay: 5000, disableOnInteraction: false }}
           breakpoints={{
             768: { slidesPerView: 2 },
             1024: { slidesPerView: 3 }
           }}
           className="testimonial-swiper"
         >
-          {reviews.map((review, index) => (
-            <SwiperSlide key={index}>
+          {testimonials.map((item) => (
+            <SwiperSlide key={item.id}>
               <div className="testimonial-card">
-                <div className="rating">
-                  {[...Array(review.rating)].map((_, i) => (
-                    <HiStar key={i} className="star-icon" />
+                <div className="quote-icon">
+                  <FaQuoteRight />
+                </div>
+                <div className="stars">
+                  {[...Array(5)].map((_, i) => (
+                    <HiStar key={i} className={i < item.rating ? "star-active" : "star-inactive"} />
                   ))}
                 </div>
-                <p className="content">"{review.content}"</p>
+                <p className="content">{item.content}</p>
                 <div className="user-info">
-                  <img src={review.image} alt={review.name} />
-                  <div>
-                    <h4>{review.name}</h4>
-                    <span>{review.role}</span>
+                  <div className="user-img">
+                    {item.imageUrl ? <img src={item.imageUrl} alt={item.name} /> : <div className="placeholder">👤</div>}
+                  </div>
+                  <div className="user-details">
+                    <h4>{item.name}</h4>
+                    <span>{item.role}</span>
                   </div>
                 </div>
               </div>
@@ -73,53 +71,106 @@ export default function Testimonials() {
       </div>
 
       <style jsx>{`
-        .testimonials { padding-bottom: 100px; }
-        .highlight { color: var(--primary); }
+        .testimonials {
+          padding: 100px 0;
+          background: linear-gradient(to bottom, #ffffff, #fdf4f0);
+        }
+        .section-title {
+          text-align: center;
+          margin-bottom: 60px;
+        }
+        .section-title h2 {
+          font-size: 2.5rem;
+          font-weight: 800;
+          color: #1A1A2E;
+        }
+        .highlight {
+          color: #FF4500;
+        }
+        .underline {
+          width: 80px;
+          height: 4px;
+          background: #FF4500;
+          margin: 15px auto;
+          border-radius: 2px;
+        }
+        .testimonial-swiper {
+          padding: 20px 10px 60px !important;
+        }
         .testimonial-card {
           background: white;
-          padding: 40px;
-          border-radius: 20px;
-          box-shadow: var(--shadow);
+          padding: 40px 30px;
+          border-radius: 30px;
+          box-shadow: 0 10px 30px rgba(255, 69, 0, 0.05);
+          position: relative;
           height: 100%;
           display: flex;
           flex-direction: column;
-          border: 1px solid #eee;
+          border: 1px solid #f0f0f0;
+          transition: transform 0.3s;
         }
-        .rating {
-          color: #FFB347;
+        .testimonial-card:hover {
+          transform: translateY(-10px);
+          box-shadow: 0 20px 40px rgba(255, 69, 0, 0.1);
+        }
+        .quote-icon {
+          position: absolute;
+          top: 30px;
+          right: 30px;
+          font-size: 2.5rem;
+          color: rgba(255, 69, 0, 0.1);
+        }
+        .stars {
           display: flex;
-          gap: 2px;
+          gap: 4px;
           margin-bottom: 20px;
         }
+        :global(.star-active) { color: #FFD700; }
+        :global(.star-inactive) { color: #eee; }
         .content {
-          font-style: italic;
-          color: var(--text-dark);
-          font-size: 1.1rem;
+          font-size: 1.05rem;
+          line-height: 1.7;
+          color: #444;
           margin-bottom: 30px;
-          flex-grow: 1;
+          font-style: italic;
+          flex: 1;
         }
         .user-info {
           display: flex;
           align-items: center;
           gap: 15px;
         }
-        .user-info img {
-          width: 60px;
-          height: 60px;
+        .user-img {
+          width: 55px;
+          height: 55px;
           border-radius: 50%;
+          overflow: hidden;
+          background: #f0f0f0;
+        }
+        .user-img img {
+          width: 100%;
+          height: 100%;
           object-fit: cover;
         }
-        .user-info h4 {
+        .placeholder {
+          width: 100%; height: 100%;
+          display: flex; align-items: center; justify-content: center;
+          font-size: 1.5rem; color: #999;
+        }
+        .user-details h4 {
           font-size: 1.1rem;
           font-weight: 700;
+          color: #1A1A2E;
           margin-bottom: 2px;
         }
-        .user-info span {
+        .user-details span {
           font-size: 0.85rem;
-          color: var(--text-light);
+          color: #666;
+          font-weight: 500;
         }
-        :global(.swiper-pagination-bullet-active) {
-          background: var(--primary) !important;
+        @media (max-width: 768px) {
+          .section-title h2 { font-size: 2rem; }
+          .testimonial-card { padding: 30px 20px; }
         }
       `}</style>
     </section>

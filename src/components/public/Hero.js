@@ -1,13 +1,23 @@
 "use client";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { HiArrowRight, HiCheckCircle } from "react-icons/hi";
-import { addDocument } from "@/lib/firestore";
+import { addDocument, subscribeToCollection } from "@/lib/firestore";
 import toast from "react-hot-toast";
 
 export default function Hero() {
   const [form, setForm] = useState({ name: "", phone: "", course: "" });
+  const [banners, setBanners] = useState([]);
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
+
+  useEffect(() => {
+    const unsub = subscribeToCollection("banners", (data) => {
+      setBanners(data.filter(b => b.isActive));
+    }, "order", "asc");
+    return unsub;
+  }, []);
+
+  const activeBanner = banners[0] || null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -27,17 +37,17 @@ export default function Hero() {
   };
 
   return (
-    <section className="hero">
+    <section className="hero" style={{ backgroundImage: activeBanner?.imageUrl ? `url(${activeBanner.imageUrl})` : undefined }}>
       <div className="hero-overlay"></div>
       <div className="container hero-content">
         <div className="hero-text max-w-2xl">
-          <span className="badge bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-semibold mb-4 inline-block">
+          <span className="badge">
             LỘ TRÌNH CÁ NHÂN HÓA
           </span>
           
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-6">
-            Xóa tan nỗi lo mất gốc <br /> 
-            <span className="highlight text-blue-600">Làm chủ tiếng Anh</span>
+            {activeBanner?.title || "Xóa tan nỗi lo mất gốc"} <br /> 
+            <span className="highlight text-blue-600">{activeBanner?.subtitle || "Làm chủ tiếng Anh"}</span>
           </h1>
 
           <div className="description space-y-4 mb-8 text-gray-700 text-lg leading-relaxed">

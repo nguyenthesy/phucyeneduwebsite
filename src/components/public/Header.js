@@ -1,16 +1,18 @@
-"use client";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { HiMenu, HiX } from "react-icons/hi";
+import { getDocument } from "@/lib/firestore";
 
 export default function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [settings, setSettings] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener("scroll", handleScroll);
+    getDocument("settings", "general").then(setSettings);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -28,10 +30,12 @@ export default function Header() {
         <div className="container header-inner">
           {/* Logo */}
           <Link href="/" className="header-logo">
-            <Image src="/logo.png" alt="Phúc Yên Edu" width={48} height={48} />
-            <div className="logo-text">
-              <span className="logo-name">PHÚC YÊN</span>
-              <span className="logo-sub">EDU</span>
+            <div className="logo-wrapper">
+              <div className="logo-icon">P</div>
+              <div className="logo-text">
+                <span className="logo-name">{settings?.centerName?.split(' ')[0] || "PHÚC YÊN"}</span>
+                <span className="logo-sub">{settings?.centerName?.split(' ').slice(1).join(' ') || "EDU"}</span>
+              </div>
             </div>
           </Link>
 
