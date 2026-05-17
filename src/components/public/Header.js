@@ -31,7 +31,7 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="header-logo">
             <div className="logo-wrapper">
-              <div className="logo-icon">P</div>
+              {/* <div className="logo-icon">P</div> */}
               <div className="logo-text">
                 <span className="logo-name">{settings?.centerName?.split(' ')[0] || "PHÚC YÊN"}</span>
                 <span className="logo-sub">{settings?.centerName?.split(' ').slice(1).join(' ') || "EDU"}</span>

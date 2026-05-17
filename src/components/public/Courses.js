@@ -2,6 +2,12 @@
 import { useState, useEffect } from "react";
 import { subscribeToCollection } from "@/lib/firestore";
 import { HiUserGroup, HiClock, HiArrowRight } from "react-icons/hi";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { Pagination, Autoplay } from "swiper/modules";
+
+// Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
 
 export default function Courses() {
   const [courses, setCourses] = useState([]);
@@ -25,36 +31,49 @@ export default function Courses() {
           <p>Lộ trình học tập cá nhân hóa, giúp học viên phát triển toàn diện kỹ năng nghe, nói, đọc, viết.</p>
         </div>
 
-        <div className="courses-grid">
+        <Swiper
+          modules={[Pagination, Autoplay]}
+          spaceBetween={30}
+          slidesPerView={1}
+          pagination={{ clickable: true }}
+          autoplay={{ delay: 4000, disableOnInteraction: false }}
+          breakpoints={{
+            768: { slidesPerView: 2 },
+            1024: { slidesPerView: 3 }
+          }}
+          className="courses-swiper"
+        >
           {courses.map((course) => (
-            <div key={course.id} className="course-card">
-              <div className="course-image">
-                {course.imageUrl ? (
-                  <img src={course.imageUrl} alt={course.title} />
-                ) : (
-                  <div className="placeholder-img">📚</div>
-                )}
-                <div className="course-tag">{course.age || "Mọi độ tuổi"}</div>
-              </div>
-              <div className="course-content">
-                <h3>{course.title}</h3>
-                <p>{course.desc || "Khóa học tiếng Anh chất lượng cao giúp học viên tự tin giao tiếp."}</p>
-                <div className="course-meta">
-                  <div className="meta-item">
-                    <HiUserGroup /> {course.level || "Cơ bản"}
+            <SwiperSlide key={course.id}>
+              <div className="course-card">
+                <div className="course-image">
+                  {course.imageUrl ? (
+                    <img src={course.imageUrl} alt={course.title} />
+                  ) : (
+                    <div className="placeholder-img">📚</div>
+                  )}
+                  <div className="course-tag">{course.age || "Mọi độ tuổi"}</div>
+                </div>
+                <div className="course-content">
+                  <h3>{course.title}</h3>
+                  <p>{course.desc || "Khóa học tiếng Anh chất lượng cao giúp học viên tự tin giao tiếp."}</p>
+                  <div className="course-meta">
+                    <div className="meta-item">
+                      <HiUserGroup /> {course.level || "Cơ bản"}
+                    </div>
+                    <div className="meta-item">
+                      <HiClock /> {course.schedule || "Linh hoạt"}
+                    </div>
                   </div>
-                  <div className="meta-item">
-                    <HiClock /> {course.schedule || "Linh hoạt"}
+                  <div className="course-footer">
+                    <span className="price">{course.price || "Liên hệ"}</span>
+                    <a href="#contact" className="btn-detail">Đăng ký <HiArrowRight /></a>
                   </div>
                 </div>
-                <div className="course-footer">
-                  <span className="price">{course.price || "Liên hệ"}</span>
-                  <a href="#contact" className="btn-detail">Đăng ký <HiArrowRight /></a>
-                </div>
               </div>
-            </div>
+            </SwiperSlide>
           ))}
-        </div>
+        </Swiper>
       </div>
 
       <style jsx>{`
@@ -64,11 +83,10 @@ export default function Courses() {
         .section-header h2 { font-size: 2.5rem; font-weight: 800; margin: 15px 0; color: var(--dark); }
         .section-header p { color: #666; font-size: 1.1rem; }
 
-        .courses-grid {
-          display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-          gap: 30px;
+        .courses-swiper {
+          padding: 20px 10px 60px !important;
         }
+        
         .course-card {
           background: white;
           border-radius: 24px;
@@ -78,6 +96,7 @@ export default function Courses() {
           border: 1px solid #f0f0f0;
           display: flex;
           flex-direction: column;
+          height: 100%;
         }
         .course-card:hover { transform: translateY(-10px); box-shadow: 0 20px 60px rgba(255, 69, 0, 0.15); border-color: var(--primary); }
         
@@ -108,8 +127,8 @@ export default function Courses() {
         }
         .btn-detail:hover { color: var(--primary); gap: 12px; }
 
-        @media (max-width: 768px) {
-          .courses-grid { grid-template-columns: 1fr; }
+        :global(.swiper-pagination-bullet-active) {
+          background: var(--primary) !important;
         }
       `}</style>
     </section>
