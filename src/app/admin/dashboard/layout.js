@@ -6,7 +6,7 @@ import Link from "next/link";
 import {
   HiHome, HiPhotograph, HiBookOpen, HiNewspaper,
   HiStar, HiCollection, HiCog, HiLogout,
-  HiUsers, HiChevronDown, HiExternalLink
+  HiUsers, HiChevronDown, HiExternalLink, HiAcademicCap
 } from "react-icons/hi";
 import Image from "next/image";
 import toast from "react-hot-toast";
@@ -15,6 +15,7 @@ const navItems = [
   { href: "/admin/dashboard", icon: <HiHome />, label: "Tổng quan" },
   { href: "/admin/dashboard/banners", icon: <HiPhotograph />, label: "Quản lý Banner" },
   { href: "/admin/dashboard/courses", icon: <HiBookOpen />, label: "Khóa học" },
+  { href: "/admin/dashboard/achievements", icon: <HiAcademicCap />, label: "Thành tích HS" },
   { href: "/admin/dashboard/news", icon: <HiNewspaper />, label: "Tin tức" },
   { href: "/admin/dashboard/testimonials", icon: <HiStar />, label: "Đánh giá" },
   { href: "/admin/dashboard/gallery", icon: <HiCollection />, label: "Thư viện ảnh" },

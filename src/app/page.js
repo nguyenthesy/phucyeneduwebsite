@@ -8,6 +8,7 @@ import WhyChooseUs from "@/components/public/WhyChooseUs";
 import Testimonials from "@/components/public/Testimonials";
 import News from "@/components/public/News";
 import Gallery from "@/components/public/Gallery";
+import Achievements from "@/components/public/Achievements";
 import Footer from "@/components/public/Footer";
 import { HiPhone, HiMail, HiLocationMarker, HiCheckCircle } from "react-icons/hi";
 import { FaFacebook, FaYoutube } from "react-icons/fa";
@@ -79,6 +80,7 @@ export default function Home() {
       <WhyChooseUs />
       <Testimonials />
       <News />
+      <Achievements />
       <Gallery />
 
       {/* ===== CONTACT SECTION ===== */}
