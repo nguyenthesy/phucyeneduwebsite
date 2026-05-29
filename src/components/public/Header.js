@@ -31,7 +31,13 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="header-logo">
             <div className="logo-wrapper">
-              {/* <div className="logo-icon">P</div> */}
+              <Image
+                src="/logo_trungtam.png"
+                alt="Logo Trung Tâm"
+                width={50}
+                height={50}
+                className="logo-icon"
+              />
               <div className="logo-text">
                 <span className="logo-name">{settings?.centerName?.split(' ')[0] || "PHÚC YÊN"}</span>
                 <span className="logo-sub">{settings?.centerName?.split(' ').slice(1).join(' ') || "EDU"}</span>
@@ -100,9 +106,17 @@ export default function Header() {
         }
         .header-logo {
           display: flex;
-          align-items: center;
           gap: 12px;
           text-decoration: none;
+        }
+        .logo-wrapper {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+        .logo-icon {
+          border-radius: 50%; /* Makes the image circular */
+          object-fit: cover; /* Ensures the image covers the area without distortion */
         }
         .logo-text {
           display: flex;
